@@ -24,22 +24,25 @@
 - 🛠️ **Global Tools** - Composer, Laravel Installer, PHPUnit, Pest, and more
 - 🔒 **Security** - Non-root user available, minimal attack surface
 
-## Quick Start
+## Installation
 
-### Pull from Docker Hub
+Pull the pre-built image from Docker Hub:
 
 ```bash
-# Latest (PHP 8.4)
-docker pull yourusername/php-laravel-base:latest
+# Pull latest (PHP 8.4)
+docker pull almossaidllc/php-laravel-base:latest
 
-# Specific PHP version
-docker pull yourusername/php-laravel-base:8.3
+# Or specific PHP version
+docker pull almossaidllc/php-laravel-base:8.3
+docker pull almossaidllc/php-laravel-base:8.2
 ```
+
+## Quick Start
 
 ### Use in Your Project
 
 ```dockerfile
-FROM yourusername/php-laravel-base:8.3
+FROM almossaidllc/php-laravel-base:8.3
 
 WORKDIR /var/www/html
 
@@ -60,7 +63,7 @@ CMD ["php-fpm"]
 ### Create New Laravel Project
 
 ```bash
-docker run --rm -v $(pwd):/app -w /app yourusername/php-laravel-base:8.3 \
+docker run --rm -v $(pwd):/app -w /app almossaidllc/php-laravel-base:8.3 \
     laravel new my-project
 ```
 
