@@ -1,6 +1,19 @@
-# PHP Laravel Base Image
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AlmossaidLLC/PHP-Laravel-Base-Image/main/.github/logo.svg" width="180" alt="PHP Laravel Base Image Logo">
+</p>
 
-A highly optimized, multi-platform Docker base image for Laravel projects. Pre-configured with all essential PHP extensions, tools, and optimizations for production-ready Laravel applications.
+<h1 align="center">PHP Laravel Base Image</h1>
+
+<p align="center">
+  <strong>A highly optimized, multi-platform Docker base image for Laravel projects.</strong><br>
+  Pre-configured with all essential PHP extensions, tools, and optimizations for production-ready Laravel applications.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-8.2%20|%208.3%20|%208.4-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+  <img src="https://img.shields.io/badge/Laravel-Ready-FF2D20?style=flat-square&logo=laravel&logoColor=white" alt="Laravel Ready">
+  <img src="https://img.shields.io/badge/Docker-Multi--Platform-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
+</p>
 
 ## Features
 
