@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AlmossaidLLC/PHP-Laravel-Base-Image/main/.github/logo.svg" width="180" alt="PHP Laravel Base Image Logo">
+  <img src="./logo.svg" width="180" alt="PHP Laravel Base Image Logo">
 </p>
 
 <h1 align="center">PHP Laravel Base Image</h1>
