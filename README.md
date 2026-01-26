@@ -262,6 +262,43 @@ docker run --rm -v $(pwd):/var/www/html yourusername/php-laravel-base:8.3 \
 - No unnecessary packages
 - Regular security updates via base image
 
+## Troubleshooting
+
+### Image Only Available for arm64 (Apple Silicon) / amd64
+
+**Problem:** When deploying on a different architecture, you get an error like:
+```
+image with reference almossaidllc/php-laravel-base:8.4 was found but does not match the specified platform
+```
+
+**Cause:** The image was built/pushed using `quick` or `push` commands, which only build for your local architecture.
+
+**Solution:** Rebuild the image for multi-platform support:
+
+```bash
+# Rebuild a specific version for both amd64 and arm64
+./build.sh rebuild-multiarch 8.4
+
+# Or rebuild all versions
+./build.sh all
+```
+
+**Prevention:** Always use `version` or `all` commands for production builds:
+```bash
+# ✅ Correct - Multi-platform build
+./build.sh version 8.4
+
+# ❌ Avoid - Single platform only
+./build.sh quick 8.4
+```
+
+**Verify Multi-Platform Support:**
+```bash
+docker buildx imagetools inspect almossaidllc/php-laravel-base:8.4
+```
+
+This should show both `linux/amd64` and `linux/arm64` in the output.
+
 ## License
 
 MIT License

@@ -122,12 +122,22 @@ build_local() {
 }
 
 # Build and push single platform (faster, for quick deployments)
+# WARNING: This only builds for the local platform (arm64 on Mac, amd64 on Linux)
 build_and_push_single() {
     local php_version="${1:-8.3}"
     local full_tag="${DOCKER_USERNAME}/${IMAGE_NAME}:${php_version}"
     
-    echo -e "\n${YELLOW}Building and pushing PHP ${php_version} (single platform)...${NC}"
+    echo -e "\n${YELLOW}Building and pushing PHP ${php_version} (single platform - LOCAL ARCH ONLY)...${NC}"
+    echo -e "${RED}WARNING: This will only build for your local architecture!${NC}"
+    echo -e "${RED}For multi-platform support (amd64+arm64), use: ${GREEN}./build.sh version ${php_version}${NC}"
     echo -e "Image: ${full_tag}"
+    
+    read -p "Continue with single-platform build? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "${YELLOW}Build cancelled. Use './build.sh version ${php_version}' for multi-platform build.${NC}"
+        exit 1
+    fi
     
     docker build \
         --build-arg PHP_VERSION="${php_version}" \
@@ -138,15 +148,19 @@ build_and_push_single() {
     docker push "${full_tag}"
     
     echo -e "${GREEN}✓ PHP ${php_version} pushed successfully!${NC}"
+    echo -e "${YELLOW}Note: This image is only available for $(uname -m) architecture${NC}"
 }
 
 # Push an existing local image
+# WARNING: This only pushes for the local platform architecture
 push_image() {
     local php_version="${1:-8.3}"
     local local_tag="${IMAGE_NAME}:${php_version}"
     local remote_tag="${DOCKER_USERNAME}/${IMAGE_NAME}:${php_version}"
     
     echo -e "\n${YELLOW}Tagging and pushing ${local_tag}...${NC}"
+    echo -e "${RED}WARNING: This will only push for your local architecture ($(uname -m))!${NC}"
+    echo -e "${RED}For multi-platform support, rebuild using: ${GREEN}./build.sh version ${php_version}${NC}"
     
     # Tag the local image with remote name
     docker tag "${local_tag}" "${remote_tag}"
@@ -156,6 +170,7 @@ push_image() {
     docker push "${remote_tag}"
     
     echo -e "${GREEN}✓ Pushed ${remote_tag} successfully!${NC}"
+    echo -e "${YELLOW}Note: This image is only available for $(uname -m) architecture${NC}"
 }
 
 # Push all local images
@@ -182,26 +197,50 @@ push_all() {
     echo -e "\n${GREEN}All available images pushed!${NC}"
 }
 
+# Rebuild and push existing image for multi-platform support
+rebuild_multiarch() {
+    local php_version="${1:-8.3}"
+    
+    if [[ -z "${1:-}" ]]; then
+        echo -e "${RED}Error: Please specify a PHP version${NC}"
+        echo -e "Usage: $0 rebuild-multiarch <version>"
+        echo -e "Example: $0 rebuild-multiarch 8.4"
+        exit 1
+    fi
+    
+    echo -e "\n${YELLOW}Rebuilding PHP ${php_version} for multi-platform support...${NC}"
+    echo -e "This will rebuild and push for: ${PLATFORMS}"
+    
+    check_docker_login
+    setup_buildx
+    build_version "$php_version"
+    
+    echo -e "\n${GREEN}✓ Multi-platform rebuild complete!${NC}"
+    echo -e "The image ${DOCKER_USERNAME}/${IMAGE_NAME}:${php_version} now supports both amd64 and arm64"
+}
+
 # Show usage
 usage() {
     echo -e "\nUsage: $0 [command] [options]"
     echo -e "\nCommands:"
-    echo -e "  ${GREEN}all${NC}              Build and push all PHP versions (multi-platform: amd64+arm64)"
-    echo -e "  ${GREEN}version <ver>${NC}    Build and push a specific version (multi-platform)"
-    echo -e "  ${GREEN}latest${NC}           Build and push only the latest tag (multi-platform)"
-    echo -e "  ${GREEN}local [ver]${NC}      Build locally for testing (default: 8.3)"
-    echo -e "  ${GREEN}push [ver]${NC}       Push an existing local image to Docker Hub"
-    echo -e "  ${GREEN}push-all${NC}         Push all existing local images to Docker Hub"
-    echo -e "  ${GREEN}quick <ver>${NC}      Build and push single platform (faster)"
-    echo -e "  ${GREEN}setup${NC}            Setup buildx builder only"
+    echo -e "  ${GREEN}all${NC}                    Build and push all PHP versions (multi-platform: amd64+arm64)"
+    echo -e "  ${GREEN}version <ver>${NC}          Build and push a specific version (multi-platform)"
+    echo -e "  ${GREEN}latest${NC}                Build and push only the latest tag (multi-platform)"
+    echo -e "  ${GREEN}local [ver]${NC}           Build locally for testing (default: 8.3)"
+    echo -e "  ${GREEN}push [ver]${NC}            Push an existing local image to Docker Hub (single platform)"
+    echo -e "  ${GREEN}push-all${NC}              Push all existing local images to Docker Hub (single platform)"
+    echo -e "  ${GREEN}quick <ver>${NC}           Build and push single platform (faster, local arch only)"
+    echo -e "  ${GREEN}rebuild-multiarch <ver>${NC} Rebuild existing image for multi-platform support"
+    echo -e "  ${GREEN}setup${NC}                 Setup buildx builder only"
     echo -e "\nEnvironment Variables (set in .env file):"
     echo -e "  ${GREEN}DOCKER_USERNAME${NC}  Your Docker Hub username"
     echo -e "  ${GREEN}DOCKER_TOKEN${NC}     Your Docker Hub access token"
     echo -e "\nExamples:"
-    echo -e "  $0 local 8.3        # Build locally for testing"
-    echo -e "  $0 push 8.3         # Push the local 8.3 image"
-    echo -e "  $0 quick 8.3        # Build and push 8.3 (single platform)"
-    echo -e "  $0 all              # Build and push all versions (multi-platform)"
+    echo -e "  $0 local 8.3              # Build locally for testing"
+    echo -e "  $0 version 8.4            # Build and push 8.4 (multi-platform) ${GREEN}← RECOMMENDED${NC}"
+    echo -e "  $0 rebuild-multiarch 8.4  # Fix existing 8.4 image (add amd64 support)"
+    echo -e "  $0 quick 8.3              # Build and push 8.3 (single platform - local arch only)"
+    echo -e "  $0 all                    # Build and push all versions (multi-platform)"
 }
 
 # Main script
@@ -252,6 +291,9 @@ main() {
             fi
             check_docker_login
             build_and_push_single "$2"
+            ;;
+        rebuild-multiarch)
+            rebuild_multiarch "$2"
             ;;
         setup)
             setup_buildx
