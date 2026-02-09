@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="laravelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF2D20"/>
+      <stop offset="100%" style="stop-color:#E6342A"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a2e"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="url(#laravelGrad)" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Laravel-inspired angular shape - stylized L with Docker container hint -->
+  <g transform="translate(50, 40)">
+    <!-- Main angular L shape -->
+    <path d="M20 0 L20 85 L30 95 L80 95 L90 85 L90 75 L40 75 L40 0 Z" fill="url(#laravelGrad)" filter="url(#glow)"/>
+    
+    <!-- Inner accent creating depth -->
+    <path d="M28 12 L28 67 L40 67 L40 12 Z" fill="#fff" opacity="0.15"/>
+    
+    <!-- Container blocks integrated into design -->
+    <rect x="48" y="78" width="12" height="12" rx="2" fill="#fff" opacity="0.9"/>
+    <rect x="63" y="78" width="12" height="12" rx="2" fill="#fff" opacity="0.7"/>
+    <rect x="78" y="78" width="8" height="12" rx="2" fill="#fff" opacity="0.5"/>
+    
+    <!-- PHP curly brace accent -->
+    <path d="M70 20 Q65 30 70 40 Q75 50 70 60" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+  </g>
+  
+  <!-- Decorative angular accents -->
+  <path d="M160 50 L170 60 L160 70" fill="none" stroke="url(#laravelGrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <path d="M40 130 L30 140 L40 150" fill="none" stroke="url(#laravelGrad)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+</svg>
