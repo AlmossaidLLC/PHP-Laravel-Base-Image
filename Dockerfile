@@ -46,8 +46,6 @@ RUN apk add --no-cache \
     imagemagick \
     # Process management
     supervisor \
-    # Web server
-    caddy \
     # Node.js (for asset compilation if needed)
     nodejs \
     npm \

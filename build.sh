@@ -20,7 +20,7 @@ IMAGE_NAME="${IMAGE_NAME:-php-laravel-base}"
 PLATFORMS="linux/amd64,linux/arm64"
 
 # PHP versions to build
-PHP_VERSIONS=("8.2" "8.3" "8.4")
+PHP_VERSIONS=("8.2" "8.3" "8.4" "8.5")
 
 # Colors for output
 RED='\033[0;31m'
@@ -78,15 +78,24 @@ build_version() {
     echo -e "\n${YELLOW}Building PHP ${php_version}...${NC}"
     echo -e "Image: ${full_tag}"
     echo -e "Platforms: ${PLATFORMS}"
+    echo -e "${YELLOW}Note: Multi-platform builds can take 20-30+ minutes. Please be patient...${NC}"
+    echo -e "${YELLOW}Building for both amd64 and arm64 architectures...${NC}\n"
     
     docker buildx build \
         --platform "${PLATFORMS}" \
         --build-arg PHP_VERSION="${php_version}" \
         --tag "${full_tag}" \
         --push \
+        --progress=plain \
         .
     
-    echo -e "${GREEN}✓ PHP ${php_version} pushed successfully!${NC}"
+    if [ $? -eq 0 ]; then
+        echo -e "\n${GREEN}✓ PHP ${php_version} built and pushed successfully!${NC}"
+        echo -e "${GREEN}✓ Image now supports both linux/amd64 and linux/arm64${NC}"
+    else
+        echo -e "\n${RED}✗ Build failed. Check the error messages above.${NC}"
+        exit 1
+    fi
 }
 
 # Build latest tag (points to highest PHP version)
