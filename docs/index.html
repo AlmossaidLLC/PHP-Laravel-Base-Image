@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A highly optimized, multi-platform Docker base image for Laravel projects. Pre-configured with all essential PHP extensions, tools, and optimizations.">
+    <meta name="keywords" content="PHP, Laravel, Docker, Docker Image, PHP 8.2, PHP 8.3, PHP 8.4, Docker Hub">
+    <title>PHP Laravel Base Image - AlmossaidLLC</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="PHP Laravel Base Image">
+    <meta property="og:description" content="A highly optimized, multi-platform Docker base image for Laravel projects">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://almossaidllc.github.io/PHP-Laravel-Base-Image">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF2D20;
+            --secondary-color: #2496ED;
+            --php-color: #777BB4;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e1e4e8;
+            --code-bg: #f6f8fa;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #16213e 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .logo svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e62915;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,45,32,0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark-bg);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--light-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--dark-bg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark-bg);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Installation Section */
+        .installation {
+            background: white;
+        }
+
+        .code-block {
+            background: var(--dark-bg);
+            color: #e6e6e6;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .code-block code {
+            color: #e6e6e6;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* PHP Versions */
+        .versions {
+            background: var(--light-bg);
+        }
+
+        .version-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .version-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .version-card:hover {
+            border-color: var(--php-color);
+            transform: scale(1.05);
+        }
+
+        .version-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--php-color);
+            margin-bottom: 10px;
+        }
+
+        .version-status {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #28a745;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Extensions Table */
+        .extensions {
+            background: white;
+        }
+
+        .extensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .extension-item {
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .extension-item::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-copyright {
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="#777BB4"/>
+                    <text x="50" y="65" font-size="50" font-weight="bold" text-anchor="middle" fill="white">P</text>
+                </svg>
+            </div>
+            <h1>PHP Laravel Base Image</h1>
+            <p class="subtitle">A highly optimized, multi-platform Docker base image for Laravel projects. Pre-configured with all essential PHP extensions, tools, and optimizations for production-ready applications.</p>
+            
+            <div class="badges">
+                <span class="badge">🐘 PHP 8.2 | 8.3 | 8.4</span>
+                <span class="badge">🚀 Laravel Ready</span>
+                <span class="badge">🐳 Docker Multi-Platform</span>
+                <span class="badge">⚡ OPcache + JIT</span>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://hub.docker.com/r/almossaidllc/php-laravel-base" class="btn btn-primary" target="_blank">View on Docker Hub</a>
+                <a href="https://github.com/AlmossaidLLC/PHP-Laravel-Base-Image" class="btn btn-secondary" target="_blank">View on GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose This Image?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Optimized for Laravel</h3>
+                    <p>Pre-configured PHP settings and extensions specifically tuned for Laravel applications, ensuring optimal performance out of the box.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏗️</div>
+                    <h3>Multi-Platform Support</h3>
+                    <p>Built for both linux/amd64 and linux/arm64 architectures, perfect for development on M1/M2 Macs and deployment anywhere.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Multiple PHP Versions</h3>
+                    <p>Available in PHP 8.2, 8.3, and 8.4 variants. Stay up-to-date with the latest PHP features and security updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>OPcache + JIT Enabled</h3>
+                    <p>PHP OPcache with JIT compilation enabled for maximum runtime performance, significantly reducing execution time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>Essential Tools Included</h3>
+                    <p>Comes with Composer, Laravel Installer, PHPUnit, Pest, PHP-CS-Fixer, and Laravel Envoy pre-installed globally.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Security First</h3>
+                    <p>Non-root user available, minimal attack surface, and regularly updated dependencies for secure deployments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation">
+        <div class="container">
+            <h2 class="section-title">Quick Start</h2>
+            
+            <h3 style="margin-bottom: 15px;">📥 Pull the Image</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code1')">Copy</button>
+                <pre id="code1"><code><span class="code-comment"># Pull latest (PHP 8.4)</span>
+docker pull almossaidllc/php-laravel-base:latest
+
+<span class="code-comment"># Or specific PHP version</span>
+docker pull almossaidllc/php-laravel-base:8.3
+docker pull almossaidllc/php-laravel-base:8.2</code></pre>
+            </div>
+
+            <h3 style="margin: 30px 0 15px;">🚀 Use in Your Dockerfile</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code2')">Copy</button>
+                <pre id="code2"><code>FROM almossaidllc/php-laravel-base:8.3
+
+WORKDIR /var/www/html
+
+<span class="code-comment"># Copy application</span>
+COPY . .
+
+<span class="code-comment"># Install dependencies</span>
+RUN composer install --no-dev --optimize-autoloader
+
+<span class="code-comment"># Set permissions</span>
+RUN chown -R appuser:appgroup storage bootstrap/cache
+
+USER appuser
+
+CMD ["php-fpm"]</code></pre>
+            </div>
+
+            <h3 style="margin: 30px 0 15px;">🎨 Create New Laravel Project</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code3')">Copy</button>
+                <pre id="code3"><code>docker run --rm -v $(pwd):/app -w /app \
+    almossaidllc/php-laravel-base:8.3 \
+    laravel new my-project</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHP Versions -->
+    <section class="versions">
+        <div class="container">
+            <h2 class="section-title">Available PHP Versions</h2>
+            <div class="version-cards">
+                <div class="version-card">
+                    <div class="version-number">8.2</div>
+                    <p style="margin-bottom: 10px;">Stable Release</p>
+                    <span class="version-status">Available</span>
+                </div>
+                <div class="version-card">
+                    <div class="version-number">8.3</div>
+                    <p style="margin-bottom: 10px;">Current Stable</p>
+                    <span class="version-status">Available</span>
+                </div>
+                <div class="version-card">
+                    <div class="version-number">8.4</div>
+                    <p style="margin-bottom: 10px;">Latest</p>
+                    <span class="version-status" style="background: #FF2D20;">Recommended</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extensions -->
+    <section class="extensions">
+        <div class="container">
+            <h2 class="section-title">Included PHP Extensions</h2>
+            <div class="extensions-grid">
+                <div class="extension-item">pdo_mysql</div>
+                <div class="extension-item">pdo_pgsql</div>
+                <div class="extension-item">mysqli</div>
+                <div class="extension-item">redis</div>
+                <div class="extension-item">gd</div>
+                <div class="extension-item">imagick</div>
+                <div class="extension-item">exif</div>
+                <div class="extension-item">intl</div>
+                <div class="extension-item">mbstring</div>
+                <div class="extension-item">bcmath</div>
+                <div class="extension-item">opcache</div>
+                <div class="extension-item">pcntl</div>
+                <div class="extension-item">sockets</div>
+                <div class="extension-item">zip</div>
+                <div class="extension-item">soap</div>
+                <div class="extension-item">xsl</div>
+            </div>
+
+            <h3 style="margin: 50px 0 20px; text-align: center; font-size: 1.8rem;">Global Tools</h3>
+            <div class="extensions-grid">
+                <div class="extension-item">Composer</div>
+                <div class="extension-item">Laravel Installer</div>
+                <div class="extension-item">Laravel Envoy</div>
+                <div class="extension-item">PHPUnit</div>
+                <div class="extension-item">Pest</div>
+                <div class="extension-item">PHP-CS-Fixer</div>
+                <div class="extension-item">Node.js & npm</div>
+                <div class="extension-item">Supervisor</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/AlmossaidLLC/PHP-Laravel-Base-Image" target="_blank">GitHub Repository</a>
+                <a href="https://hub.docker.com/r/almossaidllc/php-laravel-base" target="_blank">Docker Hub</a>
+                <a href="https://github.com/AlmossaidLLC/PHP-Laravel-Base-Image/issues" target="_blank">Report Issues</a>
+                <a href="https://github.com/AlmossaidLLC/PHP-Laravel-Base-Image/blob/main/README.md" target="_blank">Documentation</a>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 AlmossaidLLC. Built with ❤️ for the Laravel community.</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">Maintained by Abdelilah EZZOUINI</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(button, codeId) {
+            const code = document.getElementById(codeId).textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'rgba(40, 167, 69, 0.3)';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'rgba(255,255,255,0.1)';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
